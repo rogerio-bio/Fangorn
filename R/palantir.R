@@ -1,6 +1,6 @@
 #' palantir Function
 #'
-#' This function calculates AUC, TSS, prediction, thresholds, and CBI.
+#' This function automate the calculation of AUC, TSS, prediction, thresholds, and CBI.
 #'
 #' @param model SDMtune model object.
 #' @param model_name character. The name of the model.
