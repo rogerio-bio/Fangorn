@@ -1,6 +1,6 @@
 Package: Fangorn
 Type: Package
-Title: Automate SDMtune tasks
+Title: Automate some SDMtune and enmSdmX tasks
 Version: 1.0.0
 Authors@R: 
     person("Rogério", "Nunes", , "rogerio.felino@outlook.com", role = c("aut", "cre"),
