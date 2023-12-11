@@ -130,7 +130,7 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   }
 
   # CBI calculation
-  species_presence <- terra::vect(jaguar, geom = c("Longitude", "Latitude"), crs = "WGS84")
+  species_presence <- terra::vect(p, geom = c("Longitude", "Latitude"), crs = "WGS84")
   background_points <- terra::vect(bg, geom = c("Longitude", "Latitude"), crs = "WGS84")
 
   # Extract values of prediction raster
@@ -162,4 +162,4 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   return(results_table)
 }
 # Example usage:
-palantir(model, "model_name", test, variables, jaguar, bg)
+Onering(model, "model_name", test, variables, p, bg)
