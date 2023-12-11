@@ -6,7 +6,7 @@
 #' and true negatives, respectively. It calculates OPR, UPR, PPI, and PAI based
 #' on the input counts and returns the results in a data frame.
 #'
-#' @param obj An object containing counts of true positives (tp), false positives (fp),
+#' @param obj An data.frame object containing true positives (tp), false positives (fp),
 #'   false negatives (fn), and true negatives (tn).
 #'
 #' @return A data frame with columns for OPR, UPR, PPI, and PAI.
