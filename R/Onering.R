@@ -16,17 +16,12 @@
 #' Onering(model, "my_model", test, variables, p, bg)
 Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".") {
   # Check required packages
-  if (!requireNamespace("dismo", quietly = TRUE)) {
-    stop("Required package 'dismo' not installed.")
-  }
-  if (!requireNamespace("enmSdmX", quietly = TRUE)) {
-    stop("Required package 'enmSdmX' not installed.")
-  }
-  if (!requireNamespace("SDMtune", quietly = TRUE)) {
-    stop("Required package 'SDMtune' not installed.")
-  }
-  if (!requireNamespace("terra", quietly = TRUE)) {
-    stop("Required package 'terra' not installed.")
+  if (!requireNamespace("crayon", quietly = TRUE)||
+      !requireNamespace("dismo", quietly = TRUE) ||
+      !requireNamespace("enmSdmX", quietly = TRUE) ||
+      !requireNamespace("SDMtune", quietly = TRUE) ||
+      !requireNamespace("terra", quietly = TRUE))  {
+    stop("One or more required packages not installed.")
   }
 
   # Check required objects
