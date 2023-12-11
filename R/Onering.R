@@ -1,8 +1,8 @@
-#' palantir Function
+#' Onering Function
 #'
 #' This function automate the calculation of AUC, TSS, prediction, thresholds, and CBI.
 #'
-#' @param model SDMtune model object.
+#' @param model SDMmodel or SDMmodelCV object.
 #' @param model_name character. The name of the model.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param variables Spatrast stack.
@@ -13,8 +13,8 @@
 #' @return A data frame with AUC, TSS, Threshold, Omission and CBI values.
 #'
 #' @examples
-#' palantir(model, "my_model", test, variables, p, bg)
-palantir <- function(model, model_name, test, variables, p, bg, output_dir = ".") {
+#' Onering(model, "my_model", test, variables, p, bg)
+Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".") {
   # Check required packages
   if (!requireNamespace("dismo", quietly = TRUE)) {
     stop("Required package 'dismo' not installed.")
@@ -58,16 +58,25 @@ palantir <- function(model, model_name, test, variables, p, bg, output_dir = "."
   phrases <- c(
     "Exporting Fangorn's ecological portrait...",
     "Mapping species distribution in Middle-earth...",
-    "Unveiling Fangorn's biodiversity...",
-    "Orc Territory Snapshot...",
-    "Quendi Domain Unveiled..."
+    "Treebeard is analyzing your request...",
+    "Galadriel is inspecting the ecological models you provided...",
+    "Arwen is contemplating the nuances of your species distribution...",
+    "The Orcs are assessing the invasive potential in your distribution models...",
+    "Sauron is delving into the heart of your distribution models, searching for control...",
+    "The Uruk-hai are mapping out the conquest potential in your ecological models...",
+    "The Black Riders are shadowing the paths revealed by your distribution analysis...",
+    "Mount Doom's fiery depths reveal the hidden influences shaping your species distributions..."
   )
 
   # Randomly select a phrase from the pool
   selected_phrase <- sample(phrases, 1)
 
-  # Print the selected phrase with green color for non-orc phrases
-  if (grepl("Orc", selected_phrase, ignore.case = TRUE)) {
+  # Print the selected phrase with different colors
+  if (grepl("Galadriel", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::yellow$bold("\n", selected_phrase, "\n"))
+  } else if (grepl("Arwen", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::cyan$bold("\n", selected_phrase, "\n"))
+  } else if (grepl("Orc|Sauron|Black Riders|Mount Doom's|Uruk-hai", selected_phrase, ignore.case = TRUE)) {
     cat(crayon::red$bold("\n", selected_phrase, "\n"))
   } else {
     cat(crayon::green$bold("\n", selected_phrase, "\n"))
@@ -96,8 +105,29 @@ palantir <- function(model, model_name, test, variables, p, bg, output_dir = "."
   # Assign thresholds object with model name
   assign(paste0("ths_", model_name), thresholds_result, envir = .GlobalEnv)
 
-  # Head for CBI calculation
-  cat(blue$bold("\nCalculating Boyce Index...\n"))
+  # Define a pool of phrases
+  phrases <- c(
+    "Frodo maps the impact of the Boyce Index, a burden as heavy as the One Ring..",
+    "Gandalf seeks insights in the arcane calculations of the Boyce Index, as formidable as facing the Balrog..",
+    "Aragorn charts the path through the treacherous terrains of the Boyce Index, akin to his ranger journeys..",
+    "Gimli mines insights from the complex calculations of the Boyce Index, challenges surpassing the Mines of Moria.."
+  )
+
+  # Randomly select a phrase from the pool
+  selected_phrase <- sample(phrases, 1)
+
+  # Print the selected phrase with different colors
+  if (grepl("Frodo", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::green$bold("\n", selected_phrase, "\n"))
+  } else if (grepl("Gandalf", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::yellow$bold("\n", selected_phrase, "\n"))
+  } else if (grepl("Aragorn", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::red$bold("\n", selected_phrase, "\n"))
+  } else if (grepl("Gimli", selected_phrase, ignore.case = TRUE)) {
+    cat(crayon::black$bold("\n", selected_phrase, "\n"))
+  } else {
+    cat(crayon::reset("\n", selected_phrase, "\n"))
+  }
 
   # CBI calculation
   species_presence <- terra::vect(jaguar, geom = c("Longitude", "Latitude"), crs = "WGS84")
@@ -126,6 +156,8 @@ palantir <- function(model, model_name, test, variables, p, bg, output_dir = "."
     Omission = test_omission_rate,
     CBI = cbiMax
   )
+
+  cat(bold$cyan("Final results:\n"))
 
   return(results_table)
 }
