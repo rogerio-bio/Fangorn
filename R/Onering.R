@@ -25,8 +25,8 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   }
 
   # Check required objects
-  if (any(sapply(list(model, test, variables, p, bg), is.null))) {
-    stop("One or more required objects (model, test, variables, p, bg) are NULL.")
+  if (any(sapply(list(model, model_name, test, variables, p, bg), is.null))) {
+    stop("One or more required objects (model,model_name, test, variables, p, bg) are NULL.")
   }
 
   # Validate jaguar and bg data frames
