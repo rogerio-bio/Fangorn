@@ -6,8 +6,8 @@
 #' @param model_name character. The name of the model.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param variables Spatrast stack.
-#' @param p Presence data with Longitude/Latitude.
-#' @param bg Background data with Longitude/Latitude.
+#' @param p data.frame Presence data with Longitude/Latitude.
+#' @param bg data.frame Background data with Longitude/Latitude.
 #' @param output_dir The output directory for writing the raster prediction.
 #'
 #' @return A data frame with AUC, TSS, Threshold, Omission and CBI values.
@@ -24,13 +24,12 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
     stop("One or more required packages not installed.")
   }
 
-  # Validate jaguar and bg data frames
-  stopifnot(
-    is.data.frame(p),
-    is.data.frame(bg),
-    setequal(names(p), c("Longitude", "Latitude")),
-    setequal(names(bg), c("Longitude", "Latitude"))
-  )
+  # Validate p and bg data frames
+  if (!is.data.frame(p) || !is.data.frame(bg) ||
+      !setequal(names(p), c("Longitude", "Latitude")) ||
+      !setequal(names(bg), c("Longitude", "Latitude"))) {
+    stop("Invalid 'p' or 'bg' data frames. Please provide valid data frames.")
+  }
 
   # AUC and TSS calculation
   auc_value <- SDMtune::auc(model, test = test)
