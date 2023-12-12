@@ -6,8 +6,8 @@
 #' @param model_name character. The name of the model.
 #' @param test numeric. The percentage of data withhold for testing.
 #' @param variables Spatrast stack.
-#' @param p data.frame. Presence data with Longitude/Latitude.
-#' @param bg data.frame. Background data with Longitude/Latitude.
+#' @param p Presence data with Longitude/Latitude.
+#' @param bg Background data with Longitude/Latitude.
 #' @param output_dir The output directory for writing the raster prediction.
 #'
 #' @return A data frame with AUC, TSS, Threshold, Omission and CBI values.
