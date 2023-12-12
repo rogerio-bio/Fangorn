@@ -3,8 +3,8 @@ Type: Package
 Title: Automate some SDMtune/enmSdmX tasks
 Version: 1.0.0
 Authors@R: 
-    person("Rogerio", "Nunes", "rogerio.felino@outlook.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-6706-0791"))
+    person("Rogério", "NUnes", , "rogerio.felino@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6706-0791"))           
 Description: Automates some SDMtune and enmSdmX tasks, and calculates OPR, UPR, PPI and PAI.
 License: GPL (>= 3)
 Encoding: UTF-8
