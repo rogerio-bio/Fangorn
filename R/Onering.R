@@ -24,13 +24,6 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
     stop("One or more required packages not installed.")
   }
 
-  # Validate p and bg data frames
-  if (!is.data.frame(p) || !is.data.frame(bg) ||
-      !setequal(names(p), c("Longitude", "Latitude")) ||
-      !setequal(names(bg), c("Longitude", "Latitude"))) {
-    stop("Invalid 'p' or 'bg' data frames. Please provide valid data frames.")
-  }
-
   # AUC and TSS calculation
   auc_value <- SDMtune::auc(model, test = test)
   tss_value <- SDMtune::tss(model, test = test)

@@ -36,13 +36,6 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
     stop("One or more required packages not installed.")
   }
 
-  # Validate p and bg data frames
-  if (!is.data.frame(p) || !is.data.frame(bg) ||
-      !setequal(names(p), c("Longitude", "Latitude")) ||
-      !setequal(names(bg), c("Longitude", "Latitude"))) {
-    stop("Invalid 'p' or 'bg' data frames. Please provide valid data frames.")
-  }
-
   # If models is not a list, convert it to a list
   if (!is.list(models)) {
     models <- list(models)
