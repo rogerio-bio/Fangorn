@@ -113,7 +113,3 @@ Márcia Barbosa, A., Real, R., Muñoz, A.-.-R. and Brown, J.A. (2013), New measu
 Smith A, Murphy S, Henderson D, Erickson K (2023). “Including imprecisely georeferenced specimens improves accuracy of species distribution models and estimates of niche breadth.” Global Ecology & Biogeography, 32, -13. doi:10.1111/geb.13628. 
 
 Vignali S, Barras AG, Arlettaz R, Braunisch V. SDMtune: An R package to tune and evaluate species distribution models. Ecol Evol. 2020; 10: 11488–11506. https://doi.org/10.1002/ece3.6786.
-
-
- [![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=rogerio-bio&repo=Fangorn)](https://github.com/rogerio-bio/github-readme-stats)
-
