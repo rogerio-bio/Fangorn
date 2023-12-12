@@ -18,7 +18,6 @@
 #' @import SDMtune
 #' @import terra
 #'
-#'
 #' @examples
 #' Onering(model, "my_model", test, variables, p, bg)
 Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".") {

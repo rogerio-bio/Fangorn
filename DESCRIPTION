@@ -6,6 +6,12 @@ Authors@R:
     person("Rogério", "NUnes", , "rogerio.felino@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6706-0791"))           
 Description: Automates some SDMtune and enmSdmX tasks, and calculates OPR, UPR, PPI and PAI.
+Imports:
+    crayon,
+    dismo,
+    SDMtune,
+    enmSdmX,
+    terra
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
