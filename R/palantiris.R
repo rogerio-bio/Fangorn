@@ -36,11 +36,6 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
     stop("One or more required packages not installed.")
   }
 
-  # Check required objects
-  if (any(sapply(list(models, test, variables, p, bg), is.null))) {
-    stop("One or more required objects (models, test, variables, p, bg) are NULL.")
-  }
-
   # If models is not a list, convert it to a list
   if (!is.list(models)) {
     models <- list(models)
