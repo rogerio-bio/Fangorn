@@ -20,6 +20,60 @@
 #'
 #' @examples
 #' Onering(model, "my_model", test, variables, p, bg)
+#' Acquire environmental variables
+files <- list.files(path = file.path(system.file(package = "dismo"), "ex"),
+                    pattern = "grd",
+                    full.names = TRUE)
+
+variables <- terra::rast(files)
+
+# Prepare presence and background locations
+p <- SDMtune::virtualSp$presence
+bg <- SDMtune::virtualSp$background
+
+# Rename the "x" column to "Longitude" and the "y" column to "Latitude"
+names(p)[names(p) == "x"] <- "Longitude"
+names(p)[names(p) == "y"] <- "Latitude"
+
+names(bg)[names(bg) == "x"] <- "Longitude"
+names(bg)[names(bg) == "y"] <- "Latitude"
+
+# Create SWD object
+data <- SDMtune::prepareSWD(species = "Virtual species",
+                   p = p,
+                   a = bg,
+                   env = variables,
+                   categorical = "biome")
+
+# Split presence locations in training (80%) and testing (20%) datasets
+datasets <- SDMtune::trainValTest(data,
+                         test = 0.2,
+                         only_presence = TRUE)
+train <- datasets[[1]]
+test <- datasets[[2]]
+
+# Train a model
+model <- SDMtune::train(method = "Maxnet",
+               data = train,
+               fc = "l")
+
+# Define the hyperparameters to test
+h <- list(reg = 1:2,
+          fc = c("lqp", "lqph"))
+
+# Run the function using the AUC as metric
+output <- SDMtune::gridSearch(model,
+                     hypers = h,
+                     metric = "auc",
+                     test = test)
+output@results
+
+om1 <- output@models [[1]]
+om2 <- output@models [[2]]
+om3 <- output@models [[3]]
+om4 <- output@models [[4]]
+
+#' @export
 Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".") {
   # Check required packages
   if (!requireNamespace("crayon", quietly = TRUE)||
@@ -39,7 +93,7 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   cat("TSS : ", tss_value, "\n")
 
   # Prediction
-  p_model <- predict(model, data = variables, type = "cloglog")
+  p_model <- dismo::predict(model, data = variables, type = "cloglog")
   assign(paste0("p_", model_name), p_model, envir = .GlobalEnv)  # Assign prediction object with model name
 
   # Define a pool of phrases
@@ -122,8 +176,8 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   background_points <- terra::vect(bg, geom = c("Longitude", "Latitude"), crs = "WGS84")
 
   # Extract values of prediction raster
-  pres <- extract(p_model, species_presence)[, 1]
-  contrast <- extract(p_model, background_points)[, 1]
+  pres <- terra::extract(p_model, species_presence)[, 1]
+  contrast <- terra::extract(p_model, background_points)[, 1]
 
   # Converts to numeric
   pres <- as.numeric(pres)
@@ -145,7 +199,7 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
     CBI = cbiMax
   )
 
-  cat(bold$cyan("Final results:\n"))
+  cat(crayon::bold$cyan("Final results:\n"))
 
   return(results_table)
 }
