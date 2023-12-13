@@ -1,10 +1,6 @@
 \name{Onering}
 \alias{Onering}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
-}
-\description{Automation for SDMtune and enmSdmX packages analysis
+\title{Automate SDMtune and enmSdmX Boyce Index analysis
 }
 \usage{
 Onering(model, model_name, test, variables, p, bg, output_dir = ".")
