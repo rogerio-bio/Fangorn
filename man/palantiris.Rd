@@ -1,6 +1,7 @@
 \name{palantiris}
 \alias{palantiris}
 \title{Automate several models analysis for SDMtune and enmSdmX Boyce Index}
+\description{Automates the process of evaluating several species distribution models using various metrics, including AUC (Area Under the Curve), TSS (True Skill Statistic), and prediction, while also generating and exporting suitability maps through SDMtune package. It collects the results in a structured data.frame for easy analysis and additionally calculates the Boyce Index (CBI) to assess model performance and reliabilit}
 \usage{
 palantiris(models, test, variables, p, bg, output_dir = ".")
 }

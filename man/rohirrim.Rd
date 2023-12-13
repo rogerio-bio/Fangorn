@@ -1,7 +1,7 @@
 \name{rohirrim}
 \alias{rohirrim}
 \title{Calculates Over, Under-prediction rates and Potential Presence and Absence of SDM's}
-
+\description{Evaluate SDM performance with Over-prediction, Under-prediction rates, and predict Potential Presence and Absence incremente in a geographic area.}
 \usage{
 rohirrim(obj)
 }

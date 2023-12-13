@@ -2,6 +2,7 @@
 \alias{Onering}
 \title{Automate SDMtune and enmSdmX Boyce Index analysis
 }
+\description{Automates the process of evaluating one species distribution models using various metrics, including AUC (Area Under the Curve), TSS (True Skill Statistic), and prediction, while also generating and exporting suitability maps through SDMtune package. It collects the results in a structured data.frame for easy analysis and additionally calculates the Boyce Index (CBI) to assess model performance and reliabilit}
 \usage{
 Onering(model, model_name, test, variables, p, bg, output_dir = ".")
 }
