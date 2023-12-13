@@ -19,11 +19,11 @@
 #'   palantiris(model_list, test_data, env_variables, species_presence, background_points)
 #' }
 #'
+#' @import crayon
 #' @import dismo
 #' @import enmSdmX
 #' @import SDMtune
 #' @import terra
-#' @import crayon
 #'
 #' @export
 palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
