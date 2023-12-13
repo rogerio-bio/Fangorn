@@ -1,21 +1,21 @@
-\name{Onering}
-\alias{Onering}
-\title{Automate SDMtune and enmSdmX Boyce Index analysis
-}
+\name{palantiris}
+\alias{palantiris}
+\title{Automate several models analysis for SDMtune and enmSdmX Boyce Index}
 \usage{
-Onering(model, model_name, test, variables, p, bg, output_dir = ".")
+palantiris(models, test, variables, p, bg, output_dir = ".")
 }
+%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{model}{SDMmodel or SDMmodelCV object.}
-  \item{model_name}{A character string specifying the name of the model.}
-  \item{test}{ A test dataset used for evaluation.}
-  \item{variables}{Spatrast stack of environmental variables}
-  \item{p}{A data.frame containing presence data with Longitude/Latitude information.}
-  \item{bg}{A data.frame containing background data with Longitude/Latitude information}
-  \item{output_dir}{An optional output directory for writing the raster prediction. The default is the current directory.}
+  \item{models}{A list of SDMmodel or SDMmodelCV objects representing the trained species distribution models.}
+  \item{test}{A test dataset used for evaluation.}
+  \item{variables}{A Spatrast stack for continuous variables for prediction}
+  \item{p}{A data.frame containing presence data with Longitude/Latitude information}
+  \item{bg}{A data.frame containing background data with Longitude/Latitude information.}
+  \item{output_dir}{An optional output directory for writing the raster prediction and .csv results. The default is the current directory.}
 }
-\value{Returns a data.frame with analysis results.}
+\value{Returns a data.frame with all analysis results.}
 \author{Rogério Nunes}
+
 \examples{
 \dontrun{
 # Acquire environmental variables
@@ -62,11 +62,18 @@ output <- gridSearch(model,
 output@results
 
 om1 <- output@models [[1]]
+om1 <- output@models [[1]]
+om2 <- output@models [[2]]
+om3 <- output@models [[3]]
+om4 <- output@models [[4]]
+
+models <- list(om1 = om1,om1 = om1,om1 = om1,om1 = om1, )
 
 # Example usage:
-Onering(om1, "om1", test, predictors, p_coords, bg_coords)
+palantiris(models, test, predictors, p, bg)
 }
 }
+
 
 \references{
 \itemize{
@@ -75,4 +82,3 @@ Onering(om1, "om1", test, predictors, p_coords, bg_coords)
  Breiner, F. T., Nobis, M. P., Bergamini, A., & Guisan, A. (2018). Optimizing ensembles of small models for predicting the distribution of species with few occurrences. Methods in Ecology and Evolution, 9(4), 802-808. https://doi.org/10.1111/2041-210X.12957
 }
 }
-
