@@ -72,7 +72,7 @@ om4 <- output@models [[4]]
 models <- list(om1 = om1,om1 = om1,om1 = om1,om1 = om1, )
 
 # Example usage:
-palantiris(models, test, predictors, p, bg)
+palantiris(models, test, predictors, p, bg, "maxSSS")
 }
 }
 

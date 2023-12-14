@@ -66,7 +66,7 @@ output@results
 om1 <- output@models [[1]]
 
 # Example usage:
-Onering(om1, "om1", test, predictors, p_coords, bg_coords)
+Onering(om1, "om1", test, predictors, p_coords, bg_coords, "maxSSS")
 }
 }
 
