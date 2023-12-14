@@ -31,24 +31,24 @@ library (dismo)
 library (Fangorn)
 
 # Call the function
-Onering(model, "model_name", test, variables, p, bg)
+Onering(model, "model_name", test, variables, p, bg, "maxSSS")
 
 AUC and TSS values:
-AUC :  0.775805 
-TSS :  0.3779693 
-Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:03:46.6
+AUC :  0.7787997 
+TSS :  0.3963085 
+Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:03:25  
 
- The Orcs are assessing the invasive potential in your distribution models...
+ The Black Riders are shadowing the paths revealed by your distribution analysis... 
 
 Thresholds Information (Maximum test sensitivity plus specificity):
-Cloglog Value:  0.5910706 
-Test Omission Rate:  0.05206847 
+Cloglog Value:  0.3954995 
+Test Omission Rate:  0.01282651 
 
  Frodo maps the impact of the Boyce Index, a burden as heavy as the One Ring.. 
-Boyce Index (CBI): 0.6716715 
+Boyce Index (CBI): 0.6914735 
 Final results:
-       AUC       TSS Threshold   Omission       CBI
-1 0.775805 0.3779693 0.5910706 0.05206847 0.6716715
+        AUC       TSS Threshold   Omission       CBI
+1 0.7787997 0.3963085 0.3954995 0.01282651 0.6914735
 
 ```
 ### *palantiris*
