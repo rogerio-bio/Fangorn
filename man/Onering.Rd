@@ -4,7 +4,7 @@
 }
 \description{Automates the process of evaluating one species distribution models using various metrics, including AUC (Area Under the Curve), TSS (True Skill Statistic), and prediction, while also generating and exporting suitability maps through SDMtune package. It collects the results in a structured data.frame for easy analysis and additionally calculates the Boyce Index (CBI) to assess model performance and reliabilit}
 \usage{
-Onering(model, model_name, test, variables, p, bg, output_dir = ".")
+Onering(model, model_name, test, variables, p, bg, threshold,output_dir = ".")
 }
 \arguments{
   \item{model}{SDMmodel or SDMmodelCV object.}
@@ -13,6 +13,7 @@ Onering(model, model_name, test, variables, p, bg, output_dir = ".")
   \item{variables}{Spatrast stack of environmental variables}
   \item{p}{A data.frame containing presence data with Longitude/Latitude information.}
   \item{bg}{A data.frame containing background data with Longitude/Latitude information}
+  \item{threshold}{character. character.maxSSS (Maximum training sensitivity plus specificity) or maxtSSS (Maximum test sensitivity plus specificity)}
   \item{output_dir}{An optional output directory for writing the raster prediction. The default is the current directory.}
 }
 \value{Returns a data.frame with analysis results.}

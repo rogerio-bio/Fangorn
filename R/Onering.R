@@ -1,4 +1,4 @@
-#' Onering Function
+#' Automate steps for SDMtune models and CBI calculation
 #'
 #' This function automate the calculation of AUC, TSS, prediction, thresholds, and CBI.
 #'
@@ -8,6 +8,7 @@
 #' @param variables Spatrast stack.
 #' @param p data.frame Presence data with Longitude/Latitude.
 #' @param bg data.frame Background data with Longitude/Latitude.
+#' @param threshold character.maxSSS (Maximum training sensitivity plus specificity) or maxtSSS (Maximum test sensitivity plus specificity)
 #' @param output_dir The output directory for writing the raster prediction.
 #'
 #' @return A data frame with AUC, TSS, Threshold, Omission and CBI values.
@@ -66,11 +67,11 @@
 #'
 #'om1 <- output@models [[1]]
 #'
-#'Onering(om1, "om1", test, variables, p, bg)
+#'Onering(om1, "om1", test, variables, p, bg, "maxSSS")
 #'}
 #'
 #' @export
-Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".") {
+Onering <- function(model, model_name, test, variables, p, bg, threshold, output_dir = ".") {
   # Check required packages
   if (!requireNamespace("crayon", quietly = TRUE)||
       !requireNamespace("dismo", quietly = TRUE) ||
@@ -78,6 +79,19 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
       !requireNamespace("SDMtune", quietly = TRUE) ||
       !requireNamespace("terra", quietly = TRUE))  {
     stop("One or more required packages not installed.")
+  }
+
+  # Check if p and bg are data frames with "Longitude" and "Latitude" columns
+  if (!is.data.frame(p) || !is.data.frame(bg) ||
+      !all(c("Longitude", "Latitude") %in% colnames(p)) ||
+      !all(c("Longitude", "Latitude") %in% colnames(bg))) {
+    stop("Both 'p' and 'bg' must be data frames with 'Longitude' and 'Latitude' columns.")
+  }
+
+  thresholds <- c("maxSSS", "maxtSSS")
+
+  if (!(threshold %in% thresholds)) {
+    stop("Invalid threshold. Choose 'maxSSS' or 'maxtSSS'.")
   }
 
   # AUC and TSS calculation
@@ -128,17 +142,27 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   model_cv <- SDMtune::combineCV(model)
   thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
 
-  # Find the row corresponding to "Maximum test sensitivity plus specificity"
-  max_sensitivity_row <- thresholds_result[thresholds_result$Threshold == "Maximum test sensitivity plus specificity", ]
+  # Find the row corresponding to the specified threshold
+  if (threshold== "maxSSS") {
+    threshold_row <- thresholds_result[thresholds_result$Threshold == "Maximum training sensitivity plus specificity", ]
+  } else if (threshold == "maxtSSS") {
+    threshold_row <- thresholds_result[thresholds_result$Threshold == "Maximum test sensitivity plus specificity", ]
+  }
 
-  # Extract Cloglog value and Test omission rate
-  cloglog_value <- max_sensitivity_row$`Cloglog value`
-  test_omission_rate <- max_sensitivity_row$`Test omission rate`
+  # Extract values based on selected threshold
+  value1 <- threshold_row$`Cloglog value`
+  value2 <- ifelse(threshold == "maxSSS", threshold_row$`Training omission rate`, threshold_row$`Test omission rate`)
 
   # Print the extracted information
-  cat("\nThresholds Information (Maximum test sensitivity plus specificity):\n")
-  cat("Cloglog Value: ", cloglog_value, "\n")
-  cat("Test Omission Rate: ", test_omission_rate, "\n")
+  if (threshold == "maxSSS") {
+    cat("\nThresholds Information (Maximum training sensitivity plus specificity):\n")
+    cat("Cloglog Value: ", value1, "\n")
+    cat("Training Omission Rate: ", value2, "\n")
+  } else if (threshold == "maxtSSS") {
+    cat("\nThresholds Information (Maximum test sensitivity plus specificity):\n")
+    cat("Cloglog Value: ", value1, "\n")
+    cat("Test Omission Rate: ", value2, "\n")
+  }
 
   # Assign thresholds object with model name
   assign(paste0("ths_", model_name), thresholds_result, envir = .GlobalEnv)
@@ -172,8 +196,8 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   background_points <- terra::vect(bg, geom = c("Longitude", "Latitude"), crs = "WGS84")
 
   # Extract values of prediction raster
-  pres <- terra::extract(p_model, species_presence)[, 1]
-  contrast <- terra::extract(p_model, background_points)[, 1]
+  pres <- extract(p_model, species_presence)[, 1]
+  contrast <- extract(p_model, background_points)[, 1]
 
   # Converts to numeric
   pres <- as.numeric(pres)
@@ -190,8 +214,8 @@ Onering <- function(model, model_name, test, variables, p, bg, output_dir = ".")
   results_table <- data.frame(
     AUC = auc_value,
     TSS = tss_value,
-    Threshold = cloglog_value,
-    Omission = test_omission_rate,
+    Threshold = value1,
+    Omission = value2,
     CBI = cbiMax
   )
 

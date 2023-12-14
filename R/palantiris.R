@@ -9,6 +9,7 @@
 #' @param variables A Spatrast environmental variables for prediction.
 #' @param p The species presence data frame with "Longitude" and "Latitude" columns.
 #' @param bg The background points data frame with "Longitude" and "Latitude" columns.
+#' @param threshold character.maxSSS (Maximum training sensitivity plus specificity) or maxtSSS (Maximum test sensitivity plus specificity)
 #' @param output_dir The directory to save the output files. Default is the current working directory.
 #'
 #' @return A data frame summarizing the AUC, TSS, Cloglog Value, Test Omission Rate, and CBI for each model.
@@ -79,13 +80,13 @@
 #'
 #'models <-list(om1 = om1, om2 = om2, om3 = om3, om4 = om4)
 #'
-#'palantiris(om1, "om1", test, variables, p, bg)
+#'palantiris(om1, "om1", test, variables, p, bg, "maxSSS")
 #'}
 #'
 #' @export
-palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
+palantiris <- function(models, test, variables, p, bg, threshold, output_dir = ".") {
   # Check required packages
-  if (!requireNamespace("crayon", quietly = TRUE)||
+  if (!requireNamespace("crayon", quietly = TRUE) ||
       !requireNamespace("dismo", quietly = TRUE) ||
       !requireNamespace("enmSdmX", quietly = TRUE) ||
       !requireNamespace("SDMtune", quietly = TRUE) ||
@@ -105,6 +106,21 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
   model_names <- names(models)
   if (any(model_names == "")) {
     model_names[model_names == ""] <- paste0("Model_", seq_along(models))[model_names == ""]
+  }
+
+  # Check if p and bg are data frames with "Longitude" and "Latitude" columns
+  if (!is.data.frame(p) || !is.data.frame(bg) ||
+      !all(c("Longitude", "Latitude") %in% colnames(p)) ||
+      !all(c("Longitude", "Latitude") %in% colnames(bg))) {
+    stop("Both 'p' and 'bg' must be data frames with 'Longitude' and 'Latitude' columns.")
+  }
+
+  # Thresholds for selecting sensitivity and specificity
+  thresholds <- c("maxSSS", "maxtSSS")
+
+  # Check if the specified threshold is valid
+  if (!(threshold %in% thresholds)) {
+    stop("Invalid threshold. Choose 'maxSSS' or 'maxtSSS'.")
   }
 
   # Iterate over the list of models
@@ -168,43 +184,26 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
     model_cv <- SDMtune::combineCV(model)
     thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
 
-    # Find the row corresponding to "Maximum test sensitivity plus specificity"
-    max_sensitivity_row <- thresholds_result[thresholds_result$Threshold == "Maximum test sensitivity plus specificity", ]
+    # Find the row corresponding to the specified threshold
+    if (threshold == "maxSSS") {
+      threshold_row <- thresholds_result[thresholds_result$Threshold == "Maximum training sensitivity plus specificity", ]
+    } else if (threshold == "maxtSSS") {
+      threshold_row <- thresholds_result[thresholds_result$Threshold == "Maximum test sensitivity plus specificity", ]
+    }
 
-    # Extract Cloglog value and Test omission rate
-    cloglog_value <- max_sensitivity_row$`Cloglog value`
-    test_omission_rate <- max_sensitivity_row$`Test omission rate`
+    # Extract values based on selected threshold
+    value1 <- threshold_row$`Cloglog value`
+    value2 <- ifelse(threshold == "maxSSS", threshold_row$`Training omission rate`, threshold_row$`Test omission rate`)
 
     # Print the extracted information
-    cat("\nThresholds Information (Maximum test sensitivity plus specificity) for", model_name, ":\n")
-    cat("Cloglog Value: ", cloglog_value, "\n")
-    cat("Test Omission Rate: ", test_omission_rate, "\n")
-
-    # Assign thresholds object with model name
-    assign(paste0("ths_", model_name), thresholds_result, envir = .GlobalEnv)
-
-    # Define a pool of phrases
-    phrases <- c(
-      "Frodo maps the impact of the Boyce Index, a burden as heavy as the One Ring..",
-      "Gandalf seeks insights in the arcane calculations of the Boyce Index, as formidable as facing the Balrog..",
-      "Aragorn charts the path through the treacherous terrains of the Boyce Index, akin to his ranger journeys..",
-      "Gimli mines insights from the complex calculations of the Boyce Index, challenges surpassing the Mines of Moria.."
-    )
-
-    # Randomly select a phrase from the pool
-    selected_phrase <- sample(phrases, 1)
-
-    # Print the selected phrase with different colors
-    if (grepl("Frodo", selected_phrase, ignore.case = TRUE)) {
-      cat(crayon::green$bold("\n", selected_phrase, "\n"))
-    } else if (grepl("Gandalf", selected_phrase, ignore.case = TRUE)) {
-      cat(crayon::yellow$bold("\n", selected_phrase, "\n"))
-    } else if (grepl("Aragorn", selected_phrase, ignore.case = TRUE)) {
-      cat(crayon::red$bold("\n", selected_phrase, "\n"))
-    } else if (grepl("Gimli", selected_phrase, ignore.case = TRUE)) {
-      cat(crayon::black$bold("\n", selected_phrase, "\n"))
-    } else {
-      cat(crayon::reset("\n", selected_phrase, "\n"))
+    if (threshold == "maxSSS") {
+      cat("\nThresholds Information (Maximum training sensitivity plus specificity) for", model_name, ":\n")
+      cat("Cloglog Value: ", value1, "\n")
+      cat("Training Omission Rate: ", value2, "\n")
+    } else if (threshold == "maxtSSS") {
+      cat("\nThresholds Information (Maximum test sensitivity plus specificity) for", model_name, ":\n")
+      cat("Cloglog Value: ", value1, "\n")
+      cat("Test Omission Rate: ", value2, "\n")
     }
 
     # CBI calculation
@@ -212,8 +211,8 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
     background_points <- terra::vect(bg, geom = c("Longitude", "Latitude"), crs = "WGS84")
 
     # Extract values of prediction raster
-    pres <- terra::extract(p_model, species_presence)[, 1]
-    contrast <- terra::extract(p_model, background_points)[, 1]
+    pres <- extract(p_model, species_presence)[, 1]
+    contrast <- extract(p_model, background_points)[, 1]
 
     # Converts to numeric
     pres <- as.numeric(pres)
@@ -230,8 +229,8 @@ palantiris <- function(models, test, variables, p, bg, output_dir = ".") {
       Model = model_name,
       AUC = auc_value,
       TSS = tss_value,
-      Threshold = cloglog_value,
-      Omission = test_omission_rate,
+      Threshold = value1, # Updated to use the extracted threshold value
+      Omission = value2, # Updated to use the extracted omission rate value
       CBI = cbiMax
     )
 

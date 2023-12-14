@@ -12,6 +12,7 @@ palantiris(models, test, variables, p, bg, output_dir = ".")
   \item{variables}{A Spatrast stack for continuous variables for prediction}
   \item{p}{A data.frame containing presence data with Longitude/Latitude information}
   \item{bg}{A data.frame containing background data with Longitude/Latitude information.}
+  \item{threshold}{character. character.maxSSS (Maximum training sensitivity plus specificity) or maxtSSS (Maximum test sensitivity plus specificity)}
   \item{output_dir}{An optional output directory for writing the raster prediction and .csv results. The default is the current directory.}
 }
 \value{Returns a data.frame with all analysis results.}
