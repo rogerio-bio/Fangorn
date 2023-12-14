@@ -54,39 +54,35 @@ Final results:
 ### *palantiris*
 
 ``` r
-> palantiris(model_list, test, variables, p, bg)
+> palantiris(model_list, test, variables, p, bg, "maxSSS")
 
 AUC and TSS values for lq_01_2.58 :
-AUC :  0.775805 
-TSS :  0.3779693 
-Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:03:41.3
-
-  Exporting Fangorns ecological portrait...
-
-Thresholds Information (Maximum test sensitivity plus specificity) for lq_01_2.58 :
-Cloglog Value:  0.5910706 
-Test Omission Rate:  0.05206847 
-
- Gimli mines insights from the complex calculations of the Boyce Index, challenges surpassing the Mines of Moria.. 
-Boyce Index (CBI) for lq_01_2.58 : 0.6716715 
-
-AUC and TSS values for lqph_01_2.58 :
-AUC :  0.8395547 
-TSS :  0.5243239 
-Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:12:10.4
+AUC :  0.7792154 
+TSS :  0.3981394 
+Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:03:25.9
 
  Sauron is delving into the heart of your distribution models, searching for control... 
 
-Thresholds Information (Maximum test sensitivity plus specificity) for lqph_01_2.58 :
-Cloglog Value:  0.3266038 
-Test Omission Rate:  0.02442939 
+Thresholds Information (Maximum training sensitivity plus specificity) for lq_01_2.58 :
+Cloglog Value:  0.3659253 
+Training Omission Rate:  0.1966161 
+Boyce Index (CBI) for lq_01_2.58 : 0.7155504 
 
- Gandalf seeks insights in the arcane calculations of the Boyce Index, as formidable as facing the Balrog..
-Boyce Index (CBI) for lqph_01_2.58 : 0.9036226 
+AUC and TSS values for lq_05_2.58 :
+AUC :  0.7787997 
+TSS :  0.3963085 
+Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:03:22.6
+
+ Treebeard is analyzing your request... 
+
+Thresholds Information (Maximum training sensitivity plus specificity) for lq_05_2.58 :
+Cloglog Value:  0.3595249 
+Training Omission Rate:  0.1904901 
+Boyce Index (CBI) for lq_05_2.58 : 0.6914735 
 Final results:
-         Model       AUC       TSS Threshold   Omission       CBI
-1   lq_01_2.58 0.7758050 0.3779693 0.5910706 0.05206847 0.6716715
-2 lqph_01_2.58 0.8395547 0.5243239 0.3266038 0.02442939 0.9036226
+       Model       AUC       TSS Threshold  Omission       CBI
+1 lq_01_2.58 0.7792154 0.3981394 0.3659253 0.1966161 0.7155504
+2 lq_05_2.58 0.7787997 0.3963085 0.3595249 0.1904901 0.6914735
 ```
 
 ## *rohirrim*
