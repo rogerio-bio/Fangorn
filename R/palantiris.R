@@ -206,6 +206,30 @@ palantiris <- function(models, test, variables, p, bg, threshold, output_dir = "
       cat("Test Omission Rate: ", value2, "\n")
     }
 
+    # Define a pool of phrases
+    phrases <- c(
+      "Frodo maps the impact of the Boyce Index, a burden as heavy as the One Ring..",
+      "Gandalf seeks insights in the arcane calculations of the Boyce Index, as formidable as facing the Balrog..",
+      "Aragorn charts the path through the treacherous terrains of the Boyce Index, akin to his ranger journeys..",
+      "Gimli mines insights from the complex calculations of the Boyce Index, challenges surpassing the Mines of Moria.."
+    )
+
+    # Randomly select a phrase from the pool
+    selected_phrase <- sample(phrases, 1)
+
+    # Print the selected phrase with different colors
+    if (grepl("Frodo", selected_phrase, ignore.case = TRUE)) {
+      cat(crayon::green$bold("\n", selected_phrase, "\n"))
+    } else if (grepl("Gandalf", selected_phrase, ignore.case = TRUE)) {
+      cat(crayon::yellow$bold("\n", selected_phrase, "\n"))
+    } else if (grepl("Aragorn", selected_phrase, ignore.case = TRUE)) {
+      cat(crayon::red$bold("\n", selected_phrase, "\n"))
+    } else if (grepl("Gimli", selected_phrase, ignore.case = TRUE)) {
+      cat(crayon::black$bold("\n", selected_phrase, "\n"))
+    } else {
+      cat(crayon::reset("\n", selected_phrase, "\n"))
+    }
+
     # CBI calculation
     species_presence <- terra::vect(p, geom = c("Longitude", "Latitude"), crs = "WGS84")
     background_points <- terra::vect(bg, geom = c("Longitude", "Latitude"), crs = "WGS84")
