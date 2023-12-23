@@ -180,8 +180,13 @@ palantiris <- function(models, test, variables, p, bg, threshold, output_dir = "
     raster_file <- file.path(output_dir, paste0("p_", model_name, ".tif"))
     terra::writeRaster(p_model, filename = raster_file, overwrite = TRUE)
 
-    # Combine cross-validation and calculate thresholds
-    model_cv <- SDMtune::combineCV(model)
+    # Check if model is SDMmodelCV and combine cross-validation
+    if (class(model) == "SDMmodelCV") {
+      model_cv <- SDMtune::combineCV(model)
+    } else {
+      model_cv <- model
+    }
+
     thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
 
     # Find the row corresponding to the specified threshold
@@ -209,9 +214,9 @@ palantiris <- function(models, test, variables, p, bg, threshold, output_dir = "
     # Define a pool of phrases
     phrases <- c(
       "Frodo maps the impact of the Boyce Index, a burden as heavy as the One Ring..",
-      "Gandalf seeks insights in the arcane calculations of the Boyce Index, as formidable as facing the Balrog..",
-      "Aragorn charts the path through the treacherous terrains of the Boyce Index, akin to his ranger journeys..",
-      "Gimli mines insights from the complex calculations of the Boyce Index, challenges surpassing the Mines of Moria.."
+      "Gandalf seeks insights in the arcane calculations of the Boyce Index...",
+      "Aragorn charts the path through the treacherous terrains of the Boyce Index...",
+      "Gimli mines insights from the complex calculations of the Boyce Index..."
     )
 
     # Randomly select a phrase from the pool
