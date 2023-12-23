@@ -180,13 +180,8 @@ palantiris <- function(models, test, variables, p, bg, threshold, output_dir = "
     raster_file <- file.path(output_dir, paste0("p_", model_name, ".tif"))
     terra::writeRaster(p_model, filename = raster_file, overwrite = TRUE)
 
-    # Check if model is SDMmodelCV and combine cross-validation
-    if (class(model) == "SDMmodelCV") {
-      model_cv <- SDMtune::combineCV(model)
-    } else {
-      model_cv <- model
-    }
-
+    # Combine cross-validation and calculate thresholds
+    model_cv <- SDMtune::combineCV(model)
     thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
 
     # Find the row corresponding to the specified threshold
