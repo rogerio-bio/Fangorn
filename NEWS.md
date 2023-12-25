@@ -1,3 +1,7 @@
+# Fangorn 1.0.3
+
+* Fixed a bug where thresholds results were not saving in the environment
+
 # Fangorn 1.0.2
 
 * Add an option to bypass the combineCV analysis if the object is an SDMmodel
