@@ -183,6 +183,7 @@ palantiris <- function(models, test, variables, p, bg, threshold, output_dir = "
     # Combine cross-validation and calculate thresholds
     model_cv <- SDMtune::combineCV(model)
     thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
+    assign(paste0("thresholds_result_", model_name), thresholds_result, envir = .GlobalEnv)
 
     # Find the row corresponding to the specified threshold
     if (threshold == "maxSSS") {
