@@ -99,6 +99,27 @@ rohirrim(obj)
   0.5   0.5  0.3333 -0.3333
 ```
 
+## *rivendell* 
+
+``` r
+> rivendell(op, test, predictors, jaguar, bg, "maxSSS", remove_prediction = TRUE , identifier = "7.5")
+
+AUC and TSS values for lqph_3.1_7.5 :
+AUC :  0.763560275482655 
+TSS :  0.382962525464953 
+Predict - Maxent  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s - 00:06:53.7
+Thresholds Information (Maximum training sensitivity plus specificity) for lqph_3.1_7.5 :
+Cloglog Value:  0.3858708 
+Training Omission Rate:  0.1487696 
+Boyce Index (CBI) for lqph_3.1_7.5 : 0.999988351776354
+
+ Model       AUC       TSS Threshold  Omission       CBI       OPR        UPR      PPI        PAI
+1  lqph_3.1_7.5 0.7635603 0.3829625 0.3858708 0.1487696 0.9999884 0.9344828 0.01101726 11.87206 -0.4550185
+2    lq_0.6_7.5 0.7526314 0.3706172 0.3742082 0.1498881 0.9162143 0.9361958 0.01205490 12.01305 -0.4604223
+3  lqph_4.1_7.5 0.7619091 0.3833312 0.3891604 0.1465324 0.9999767 0.9351796 0.01112553 12.01044 -0.4603222
+```
+
+
 ## 👾 Issues and Bugs
 
 If you find any issues or bugs, please open an issue on the [Issues page](https://github.com/rogerio-bio/Fangorn/issues).
