@@ -1,3 +1,13 @@
+# Fangorn 1.0.4
+
+* Major rework of the `palantiris` function.
+* Documentation updates and corrections for `palantiris`.
+* Introduction of a new function, `rivendell`.
+* `rivendell` analyzes multiple models (tested up to 100), excluding duplicates and offering options to export (or not) suitability maps and append identifiers to model names for easier output management.
+* `rivendell` is designed to work specifically with S4 objects from SDMtune package. If you have a list of models, we recommend using the `palantiris` function instead, which provides robust functionality for such scenario. 
+* Corrections for `Onering` documentation
+
+
 # Fangorn 1.0.3
 
 * Fixed a bug where thresholds results were not saving in the environment

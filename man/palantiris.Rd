@@ -31,8 +31,6 @@ predictors <- terra::rast(files)
 p <- virtualSp$presence
 bg <- virtualSp$background
 
-#
-
 # Create SWD object
 data <- prepareSWD(species = "Virtual species",
                    p = p_coords,
