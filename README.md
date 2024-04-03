@@ -99,7 +99,7 @@ rohirrim(obj)
   0.5   0.5  0.3333 -0.3333
 ```
 
-## *rivendell* 
+## *rivendell* - This function was added in version 1.0.4
 
 ``` r
 > rivendell(op, test, predictors, jaguar, bg, "maxSSS", remove_prediction = TRUE , identifier = "7.5")
