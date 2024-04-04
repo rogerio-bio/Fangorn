@@ -151,20 +151,22 @@ rivendell <- function(input, test, variables, p, bg, threshold, remove_predictio
 
     model <- input@models[[i]]
 
+    # Combine cross-validation
+    model_cv <- SDMtune::combineCV(model)
+
     # Calculate AUC and TSS
-    auc_value <- SDMtune::auc(model, test = test)
-    tss_value <- SDMtune::tss(model, test = test)
+    auc_value <- SDMtune::auc(model_cv, test = test)
+    tss_value <- SDMtune::tss(model_cv, test = test)
 
     cat("\nAUC and TSS values for", model_name, ":\n")
     cat("AUC : ", color_auc(auc_value), "\n")
     cat("TSS : ", color_tss(tss_value), "\n")
 
     # Model prediction
-    p_model <- dismo::predict(model, data = variables, type = "cloglog")
+    p_model <- dismo::predict(model_cv, data = variables, type = "cloglog")
     assign(paste0("p_", model_name), p_model, envir = .GlobalEnv)
 
     # Combine cross-validation and calculate thresholds
-    model_cv <- SDMtune::combineCV(model)
     thresholds_result <- SDMtune::thresholds(model_cv, type = "cloglog", test = test)
     assign(paste0("thresholds_result_", model_name), thresholds_result, envir = .GlobalEnv)
 

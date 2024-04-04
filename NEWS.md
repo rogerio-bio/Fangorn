@@ -1,3 +1,7 @@
+# Fangorn 1.0.5
+
+* Fixed an issue that could occur when *combineCV* analysis was run after calculating AUC and TSS. The *combineCV* has been moved to the top of the loop to ensure consistency in extracting such results.
+
 # Fangorn 1.0.4
 
 * Major rework of the `palantiris` function.
