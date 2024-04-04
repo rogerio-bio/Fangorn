@@ -242,7 +242,7 @@ rivendell <- function(input, test, variables, p, bg, threshold, remove_predictio
 
   # Combine results and export to CSV
   final_results_table <- do.call(rbind, all_results)
-  csv_file <- file.path(output_dir, "results_table_combined.csv")
+  csv_file <- file.path(output_dir, paste("results_table_combined_", identifier, ".csv", sep = ""))
   write.csv(final_results_table, file = csv_file, row.names = FALSE)
 
   cat(crayon::bold$magenta("Final results:\n"))
