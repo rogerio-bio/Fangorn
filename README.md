@@ -10,7 +10,9 @@
 
 Utilize the *Onering* function for a single model or employ the *palantiris* function for a list of models.
 
-Additionally, *rohirrim* calculates auxiliary metrics proposed by [Barbosa et al., (2013)](https://onlinelibrary.wiley.com/doi/10.1111/ddi.12100), by providing important results for SDM's, such as Over-prediction rate (OPR), Under-prediction rate (UPR), Potential Presence Increment (PPI), and Potential Absence Increment (PAI) from a confusion matrix
+Additionally, *rohirrim* calculates auxiliary metrics proposed by [Barbosa et al., (2013)](https://onlinelibrary.wiley.com/doi/10.1111/ddi.12100), by providing important results for SDM's, such as Over-prediction rate (OPR), Under-prediction rate (UPR), Potential Presence Increment (PPI), and Potential Absence Increment (PAI) from a confusion matrix.
+
+Repo page:https://github.com/rogerio-bio/Fangorn
 
 ## 🚀 Instalation
 
@@ -19,7 +21,6 @@ You can install the package from GitHub using the following command:
 ``` r
 remotes::install_github('rogerio-bio/Fangorn', dependencies=TRUE)
 ```
-
 ## 💻 Usage
 
 ### *Onering*
